@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { isAxiosError } from 'axios';
 import { z } from 'zod';
 import { AuthPageShell } from './AuthPageShell';
 import { Input } from '../components/ui/Input';
@@ -42,8 +43,11 @@ export const RegisterPage = () => {
       await register(parsed.data);
       pushToast('Account created successfully');
       navigate('/');
-    } catch {
-      pushToast('Unable to create account', 'error');
+    } catch (error) {
+      const message = isAxiosError<{ message?: string }>(error)
+        ? (error.response?.data?.message ?? 'Unable to create account')
+        : 'Unable to create account';
+      pushToast(message, 'error');
     } finally {
       setLoading(false);
     }

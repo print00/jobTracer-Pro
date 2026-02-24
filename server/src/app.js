@@ -10,16 +10,27 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 const app = express();
 
-const allowedOrigins = env.clientUrl.split(',').map((origin) => origin.trim());
+const normalizeOrigin = (origin) => origin.trim().replace(/\/+$/, '');
+const allowedOrigins = env.clientUrl
+  .split(',')
+  .map((origin) => normalizeOrigin(origin))
+  .filter(Boolean);
 
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) {
         callback(null, true);
         return;
       }
-      callback(new Error('Origin not allowed by CORS'));
+
+      const normalizedOrigin = normalizeOrigin(origin);
+      if (allowedOrigins.includes(normalizedOrigin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`Origin not allowed by CORS: ${origin}`));
     },
     credentials: true
   })
