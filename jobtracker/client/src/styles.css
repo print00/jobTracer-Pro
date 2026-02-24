@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 243 246 251;
+  --panel: 255 255 255;
+  --panel-soft: 248 250 253;
+  --text: 17 24 39;
+  --text-muted: 100 116 139;
+  --border: 226 232 240;
+  --accent: 37 99 235;
+  --success: 21 128 61;
+  --warning: 180 83 9;
+  --danger: 220 38 38;
+}
+
+.dark {
+  --bg: 15 23 42;
+  --panel: 17 25 40;
+  --panel-soft: 22 32 52;
+  --text: 226 232 240;
+  --text-muted: 148 163 184;
+  --border: 51 65 85;
+  --accent: 96 165 250;
+  --success: 74 222 128;
+  --warning: 251 191 36;
+  --danger: 248 113 113;
+}
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-bg text-text font-sans antialiased;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 100% -10%, rgba(37, 99, 235, 0.12), transparent 35%),
+    radial-gradient(circle at 0% 110%, rgba(14, 165, 233, 0.08), transparent 40%);
+}
+
+.dark body {
+  background-image:
+    radial-gradient(circle at 100% -10%, rgba(59, 130, 246, 0.2), transparent 30%),
+    radial-gradient(circle at 0% 110%, rgba(14, 165, 233, 0.12), transparent 40%);
+}
+
+input,
+select,
+textarea,
+button {
+  @apply outline-none;
+}
+
+.focus-ring {
+  @apply focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+}
